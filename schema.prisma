@@ -1,0 +1,216 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Militante {
+  id                   Int                      @id @default(autoincrement())
+  createdAt            DateTime                 @default(now()) @map("created_at")
+  updatedAt            DateTime                 @updatedAt @map("updated_at")
+  nombres              String
+  apellidos            String
+  cedula               String                   @unique
+  fechaNac             DateTime?                @map("fecha_nac")
+  sexo                 String?
+  estadoCivil          String?                  @map("estado_civil")
+  telefono             String
+  telefonoAlt          String?                  @map("telefono_alt")
+  email                String?
+  provincia            String
+  municipio            String
+  distritoMunicipal    String?                  @map("distrito_municipal")
+  seccion              String?
+  sector               String?
+  subbarrio            String?
+  direccion            String?
+  ocupacion            String?
+  tipoMilitancia       String?                  @default("Simpatizante") @map("tipo_militancia")
+  motivo               String?
+  estado               EstadoMilitante          @default(PENDIENTE)
+  verificationStatus   VerificationDecision?    @map("verification_status")
+  verifiedAt           DateTime?                @map("verified_at")
+  verifiedBy           String?                  @map("verified_by")
+  desafiliaciones      DesafiliacionSolicitud[]
+  verificationSessions VerificationSession[]
+
+  @@map("militantes")
+}
+
+model VerificationSession {
+  id                String                 @id @default(cuid())
+  militanteId       Int                    @map("militante_id")
+  status            VerificationStatus     @default(pending)
+  finalDecision     VerificationDecision?  @map("final_decision")
+  referenceImageUrl String?                @map("reference_image_url")
+  referenceProvided Boolean                @default(false) @map("reference_provided")
+  referenceFileName String?                @map("reference_file_name")
+  metadata          Json?
+  createdAt         DateTime               @default(now()) @map("created_at")
+  updatedAt         DateTime               @updatedAt @map("updated_at")
+  completedAt       DateTime?              @map("completed_at")
+  auditLogs         AuditLog[]
+  manualReview      ManualReview?
+  attempts          VerificationAttempt[]
+  consent           VerificationConsent?
+  evidences         VerificationEvidence[]
+  militante         Militante              @relation(fields: [militanteId], references: [id], onDelete: Cascade)
+
+  @@index([militanteId, status])
+  @@map("verification_sessions")
+}
+
+model VerificationConsent {
+  id               String              @id @default(cuid())
+  sessionId        String              @unique @map("session_id")
+  consentVersion   String              @map("consent_version")
+  ipAddress        String?             @map("ip_address")
+  userAgent        String?             @map("user_agent")
+  privacyPolicyUrl String?             @map("privacy_policy_url")
+  createdAt        DateTime            @default(now()) @map("created_at")
+  session          VerificationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("verification_consents")
+}
+
+model VerificationAttempt {
+  id            String                    @id @default(cuid())
+  sessionId     String                    @map("session_id")
+  attemptNumber Int                       @map("attempt_number")
+  type          VerificationAttemptType
+  status        VerificationAttemptStatus
+  errorReason   String?                   @map("error_reason")
+  score         Float?
+  metadata      Json?
+  ipAddress     String?                   @map("ip_address")
+  userAgent     String?                   @map("user_agent")
+  createdAt     DateTime                  @default(now()) @map("created_at")
+  session       VerificationSession       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, type])
+  @@map("verification_attempts")
+}
+
+model VerificationEvidence {
+  id         String              @id @default(cuid())
+  sessionId  String              @map("session_id")
+  kind       String
+  fileName   String?             @map("file_name")
+  mimeType   String?             @map("mime_type")
+  sizeBytes  Int?                @map("size_bytes")
+  sha256     String?
+  metadata   Json?
+  capturedAt DateTime            @default(now()) @map("captured_at")
+  session    VerificationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, kind])
+  @@map("verification_evidence")
+}
+
+model ManualReview {
+  id            String              @id @default(cuid())
+  sessionId     String              @unique @map("session_id")
+  status        ManualReviewStatus  @default(pending)
+  reviewer      String?
+  decisionNotes String?             @map("decision_notes")
+  createdAt     DateTime            @default(now()) @map("created_at")
+  updatedAt     DateTime            @updatedAt @map("updated_at")
+  reviewedAt    DateTime?           @map("reviewed_at")
+  session       VerificationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("manual_reviews")
+}
+
+model AuditLog {
+  id        String               @id @default(cuid())
+  sessionId String?              @map("session_id")
+  action    String
+  actor     String?
+  details   Json?
+  ipAddress String?              @map("ip_address")
+  userAgent String?              @map("user_agent")
+  createdAt DateTime             @default(now()) @map("created_at")
+  session   VerificationSession? @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId, createdAt])
+  @@map("audit_logs")
+}
+
+model DesafiliacionSolicitud {
+  id                  String              @id @default(cuid())
+  createdAt           DateTime            @default(now()) @map("created_at")
+  updatedAt           DateTime            @updatedAt @map("updated_at")
+  cedula              String
+  nombres             String?
+  apellidos           String?
+  militanteId         Int?                @map("militante_id")
+  tipoSolicitud       String              @map("tipo_solicitud")
+  fechaSolicitud      DateTime            @map("fecha_solicitud")
+  fechaRecepcion      DateTime?           @map("fecha_recepcion")
+  medioRecepcion      String?             @map("medio_recepcion")
+  referenciaDocumento String?             @map("referencia_documento")
+  motivo              String?
+  detallePrueba       String?             @map("detalle_prueba")
+  adjuntoNombre       String?             @map("adjunto_nombre")
+  adjuntoMimeType     String?             @map("adjunto_mime_type")
+  adjuntoSha256       String?             @map("adjunto_sha256")
+  estado              EstadoDesafiliacion @default(PENDIENTE)
+  observaciones       String?
+  metadata            Json?
+  militante           Militante?          @relation(fields: [militanteId], references: [id])
+
+  @@index([cedula, estado])
+  @@map("desafiliaciones_solicitudes")
+}
+
+enum EstadoMilitante {
+  ACTIVO
+  PENDIENTE
+  INACTIVO
+}
+
+enum VerificationStatus {
+  pending
+  liveness_in_progress
+  liveness_passed
+  liveness_failed
+  face_match_pending
+  approved
+  rejected
+  manual_review
+}
+
+enum VerificationDecision {
+  approved
+  rejected
+  manual_review
+}
+
+enum VerificationAttemptType {
+  liveness
+  face_match
+}
+
+enum VerificationAttemptStatus {
+  success
+  failure
+  error
+}
+
+enum ManualReviewStatus {
+  pending
+  approved
+  rejected
+}
+
+enum EstadoDesafiliacion {
+  PENDIENTE
+  RECIBIDA
+  REMITIDA
+  CERRADA
+  RECHAZADA
+  ARCHIVADA
+}

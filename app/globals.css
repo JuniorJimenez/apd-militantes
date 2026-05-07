@@ -1,0 +1,69 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --apd-blue:   #0D3B8C;
+  --apd-red:    #C8001E;
+  --apd-yellow: #F5C400;
+}
+
+@layer base {
+  body {
+    @apply text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  /* Barra tricolor APD */
+  .apd-strip {
+    height: 4px;
+    background: linear-gradient(
+      to right,
+      var(--apd-blue)  0%   33.33%,
+      var(--apd-yellow) 33.33% 66.66%,
+      var(--apd-red)   66.66% 100%
+    );
+  }
+
+  /* Botones */
+  .btn-apd-red {
+    @apply bg-[#C8001E] text-white font-medium px-6 py-2.5 rounded-lg
+           hover:bg-red-800 active:scale-95 transition-all duration-150;
+  }
+  .btn-apd-blue {
+    @apply bg-[#0D3B8C] text-white font-medium px-6 py-2.5 rounded-lg
+           hover:opacity-90 active:scale-95 transition-all duration-150;
+  }
+  .btn-outline {
+    @apply border border-gray-300 text-gray-700 font-medium px-6 py-2.5 rounded-lg
+           hover:bg-gray-100 active:scale-95 transition-all duration-150;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white border border-gray-200 rounded-xl p-6 mb-4;
+  }
+
+  /* Badges de estado */
+  .badge-activo {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1
+           rounded-full bg-green-100 text-green-800;
+  }
+  .badge-pendiente {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1
+           rounded-full bg-amber-100 text-amber-800;
+  }
+  .badge-inactivo {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1
+           rounded-full bg-gray-100 text-gray-600;
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm
+           focus:outline-none focus:ring-2 focus:ring-[#0D3B8C]/20 focus:border-[#0D3B8C]
+           transition-colors duration-150;
+  }
+}
