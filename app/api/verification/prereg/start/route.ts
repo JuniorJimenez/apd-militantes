@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { VERIFICATION_ENABLED } from '@/lib/verification/config'
 import { getClientIP, sanitizeText } from '@/lib/security/sanitize'
