@@ -9,7 +9,7 @@
 //   1. Cambia estado de la solicitud → ANULADA
 //   2. Reactiva al militante         → ACTIVO
 //   3. Registra en AuditLog          → trazabilidad completa
-
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma }       from '@/lib/prisma'
 import { requireAdmin } from '@/lib/security/authGuard'
