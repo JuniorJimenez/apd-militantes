@@ -1,4 +1,5 @@
 // app/api/militantes/[cedula]/route.ts — Protegido con auth admin
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse }      from 'next/server'
 import { prisma }                         from '@/lib/prisma'
 import { requireAdmin, validateOrigin }   from '@/lib/security/authGuard'
