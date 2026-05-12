@@ -1,5 +1,6 @@
 // app/api/militantes/exportar/route.ts — Protegido por requireAdmin
 // Formato Art. 18 Reglamento JCE 2026: incluye Id Municipio e Id Distrito Municipal
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma }       from '@/lib/prisma'
 import { requireAdmin } from '@/lib/security/authGuard'
