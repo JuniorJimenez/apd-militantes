@@ -2,7 +2,7 @@
 // app/admin/carta/[cedula]/page.tsx
 // Carta formal de afiliación o desafiliación
 // Firmada por Dr. Max Puig, Presidente del Partido APD
-
+export const dynamic = 'force-dynamic';
 import { Suspense, useEffect, useState } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
