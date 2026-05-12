@@ -1,5 +1,5 @@
 // app/api/reporte/route.ts — Protegido por middleware (cookie admin)
-
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
