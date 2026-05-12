@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { verificationService } from '@/lib/verification/factory'
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES, VERIFICATION_ENABLED } from '@/lib/verification/config'
