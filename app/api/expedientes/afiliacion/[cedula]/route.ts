@@ -1,5 +1,6 @@
 // app/api/expedientes/afiliacion/[cedula]/route.ts
 // Ficha de afiliación — Art. 5 Párr. I y II Reglamento JCE 2026
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma }       from '@/lib/prisma'
 import { requireAdmin } from '@/lib/security/authGuard'
