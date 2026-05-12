@@ -1,4 +1,5 @@
 // app/api/verification/prereg/liveness/route.ts
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse }     from 'next/server'
 import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES, VERIFICATION_ENABLED } from '@/lib/verification/config'
 import { getClientIP }                   from '@/lib/security/sanitize'
