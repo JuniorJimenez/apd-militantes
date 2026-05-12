@@ -1,4 +1,5 @@
 // app/api/jce-entregas/route.ts
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma }       from '@/lib/prisma'
 import { requireAdmin } from '@/lib/security/authGuard'
