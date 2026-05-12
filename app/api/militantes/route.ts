@@ -1,4 +1,5 @@
 // app/api/militantes/route.ts
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse }    from 'next/server'
 import { prisma }                       from '@/lib/prisma'
 import { rateLimit, LIMITS }            from '@/lib/security/rateLimit'
