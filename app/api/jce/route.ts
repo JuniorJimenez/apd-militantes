@@ -1,7 +1,7 @@
 // app/api/jce/route.ts
 // Consulta rápida al padrón JCE para auto-llenado del formulario
 // Solo devuelve los campos necesarios para el formulario
-
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { consultarJCE }             from '@/lib/jce'
 import { validarCedula, getClientIP } from '@/lib/security/sanitize'
