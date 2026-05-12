@@ -2,7 +2,7 @@
 const nextConfig = {
   poweredByHeader: false,
   compress: true,
-
+  output: 'standalone',
   images: {
     domains: [],
     dangerouslyAllowSVG: false,
