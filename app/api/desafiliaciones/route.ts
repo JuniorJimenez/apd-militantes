@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getClientIP, sanitizeName, sanitizeText, validarCedula } from '@/lib/security/sanitize'
