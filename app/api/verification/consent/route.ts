@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server'
 import { verificationService } from '@/lib/verification/factory'
 import { VERIFICATION_ENABLED, VERIFICATION_PRIVACY_POLICY_URL } from '@/lib/verification/config'
